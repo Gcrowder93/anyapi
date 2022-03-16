@@ -2,6 +2,7 @@ const pool = require('../lib/utils/pool');
 const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
+const Song = require('../lib/models/Song');
 
 describe('anyapi routes', () => {
   beforeEach(() => {
@@ -22,5 +23,12 @@ describe('anyapi routes', () => {
       title: 'aquemini',
       artist: 'outkast',
     });
+  });
+
+  it('should be able to list songs by id', async () => {
+    const song = await Song.insert({ title: 'aquemini', artist: 'outkast' });
+    const res = await request(app).get(`/api/v1/songs/${song.id}`);
+
+    expect(song).toEqual(song);
   });
 });
