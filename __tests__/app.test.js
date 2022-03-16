@@ -29,6 +29,22 @@ describe('anyapi routes', () => {
     const song = await Song.insert({ title: 'aquemini', artist: 'outkast' });
     const res = await request(app).get(`/api/v1/songs/${song.id}`);
 
-    expect(song).toEqual(song);
+    expect(res.body).toEqual(song);
+  });
+
+  it('should be able to list songs', async () => {
+    const expected = await Song.insert({
+      title: 'aquemini',
+      artist: 'outkast',
+    });
+    const res = await request(app).get('/api/v1/songs');
+
+    expect(res.body).toEqual([
+      {
+        id: expect.any(String),
+        title: 'aquemini',
+        artist: 'outkast',
+      },
+    ]);
   });
 });
