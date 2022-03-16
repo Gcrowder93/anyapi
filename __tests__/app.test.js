@@ -47,4 +47,12 @@ describe('anyapi routes', () => {
       },
     ]);
   });
+
+  it('should be able to delete a song', async () => {
+    const song = await Song.insert({ title: 'aquemini', artist: 'outkast' });
+    const res = await request(app).delete(`/api/v1/songs/${song.id}`);
+
+    expect(res.body).toEqual(song);
+    expect(await Song.getById(song.id)).toBeNull();
+  });
 });
