@@ -60,25 +60,17 @@ describe('anyapi routes', () => {
     const song = await Song.insert({ title: 'aquemini', artist: 'outkast' });
     const res = await request(app)
       .patch(`/api/v1/songs/${song.id}`)
-      .send({ title: 'New Song', artist: 'New Artist' });
+      .send({ title: 'New Song' });
+    console.log(res);
+
+    const expected = {
+      id: expect.any(String),
+      title: 'New Song',
+      artist: 'outkast',
+    };
+
     console.log(song);
-
-    // expect(res.body).toEqual([
-    //   {
-    //     id: expect.any(String),
-    //     title: 'New Song',
-    //     artist: 'New Artist',
-    //   },
-    // ]);
-
-    // const expected = {
-    //   id: expect.any(String),
-    //   title: 'New Song',
-    //   artist: 'New Artist',
-    // };
-
-    // console.log(song);
-    // expect(res.body).toEqual(expected);
-    // expect(await Song.getById(song.id)).toEqual(expected);
+    expect(res.body).toEqual(expected);
+    expect(await Song.getById(song.id)).toEqual(expected);
   });
 });
